@@ -17,16 +17,65 @@
       background: url(lib/smbh.jpg);
     }
   </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
   <canvas id="myCanvas"></canvas>
+  <div id="instructions" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="playButton close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Instructions</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item">W -- forward</li>
+          <li class="list-group-item">S -- backward</li>
+          <li class="list-group-item">A -- turn left</li>
+          <li class="list-group-item">D -- turn right</li>
+          <li class="list-group-item">Space -- fire!</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="playButton btn btn-default" data-dismiss="modal">Play</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="gameOver" class="modal fade">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="restartButton close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Game over</h4>
+    </div>
+    <div class="modal-body">
+      <h1>You win!</h1>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="restartButton btn btn-default" data-dismiss="modal">Play again!</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
   <script type="text/javascript">
     var canvas = document.getElementById("myCanvas");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
     var ctx = canvas.getContext("2d");
     var gameView = new Asteroids.gameView(canvas);
-    gameView.start();
+    gameView.initialize();
+    $('#instructions').modal('show')
+    $('.playButton').on('click', function () {
+      gameView.start();
+    });
+    $('.restartButton').on('click', function () {
+      gameView.restart();
+    });
   </script>
 </body>
 </html>

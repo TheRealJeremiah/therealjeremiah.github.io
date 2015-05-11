@@ -10,15 +10,34 @@
     this.game = new Asteroids.Game(this.ctx);
   };
 
-  Asteroids.gameView.prototype.start = function() {
+  Asteroids.gameView.prototype.initialize = function() {
     this.game.addAsteroids();
-    this.game.draw();
+    setTimeout((function () {
+      this.ctx.clearRect ( 0 , 0 , this.width, this.height );
+      this.game.step();
+      this.game.draw();
+    }).bind(this), 100);
+  };
+
+  Asteroids.gameView.prototype.start = function() {
     setInterval((function () {
       this.ctx.clearRect ( 0 , 0 , this.width, this.height );
       this.game.step();
       this.game.draw();
+      this.handleEnd();
       this.bindKeyHandlers();
     }).bind(this), 1000/60);
+  };
+
+  Asteroids.gameView.prototype.restart = function() {
+    this.game = new Asteroids.Game(this.ctx);
+    this.game.addAsteroids();
+  };
+
+  Asteroids.gameView.prototype.handleEnd = function() {
+    if (this.game.asteroids.length === 0) {
+      $('#gameOver').modal('show')
+    }
   };
 
   Asteroids.gameView.prototype.bindKeyHandlers = function() {
