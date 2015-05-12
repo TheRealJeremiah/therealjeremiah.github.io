@@ -15,7 +15,16 @@
   Asteroids.Util.inherits(Asteroids.Ship, Asteroids.movingObject);
 
   Asteroids.Ship.prototype.power = function(impulse) {
-    this.vel = Asteroids.Util.vecWithChangedVel(this.vel, this.turnVec, impulse)
+    var x = this.vel[0];
+    var y = this.vel[1];
+    var oldLength = Math.sqrt(x*x + y*y);
+
+    var newVel = Asteroids.Util.vecWithChangedVel(this.vel, this.turnVec, impulse);
+    var newLength = Math.sqrt(newVel[0]*newVel[0] + newVel[1]*newVel[1]);
+    
+    if ((oldLength < 20) || (newLength < oldLength)) {
+      this.vel = newVel;
+    }
   };
 
   Asteroids.Ship.prototype.turn = function(impulse) {
